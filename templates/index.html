@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ИнгГУ Student</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    background: #f5f7fb;
+    color: #172033;
+}
+
+.app {
+    min-height: 100vh;
+}
+
+/* БОКОВОЕ МЕНЮ */
+
+.sidebar {
+    width: 245px;
+    background: #101828;
+    color: white;
+    padding: 28px 18px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 10px 35px;
+}
+
+.logo-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 13px;
+    background: linear-gradient(135deg,#3b82f6,#6366f1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+}
+
+.logo span {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.menu button {
+    border: none;
+    background: transparent;
+    color: #98a2b3;
+    padding: 13px 14px;
+    border-radius: 11px;
+    text-align: left;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.menu button:hover,
+.menu button.active {
+    background: #1d2939;
+    color: white;
+}
+
+.sidebar-bottom {
+    position: absolute;
+    bottom: 25px;
+    left: 18px;
+    right: 18px;
+}
+
+.mini-profile {
+    background: #1d2939;
+    padding: 13px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #344054;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+}
+
+/* ОСНОВНАЯ ОБЛАСТЬ */
+
+.main {
+    margin-left: 245px;
+    padding: 35px 42px;
+    max-width: 1500px;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.greeting h1 {
+    font-size: 29px;
+}
+
+.greeting p {
+    margin-top: 6px;
+    color: #667085;
+}
+
+.date {
+    background: white;
+    padding: 11px 16px;
+    border: 1px solid #eaecf0;
+    border-radius: 12px;
+    color: #475467;
+}
+
+/* HERO */
+
+.hero {
+    background: linear-gradient(120deg,#1d4ed8,#4f46e5);
+    border-radius: 22px;
+    color: white;
+    padding: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.hero h2 {
+    margin-bottom: 8px;
+}
+
+.hero p {
+    opacity: .85;
+}
+
+.hero-stat {
+    text-align: right;
+}
+
+.hero-stat strong {
+    display: block;
+    font-size: 35px;
+}
+
+/* КАРТОЧКИ */
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 16px;
+    margin-bottom: 25px;
+}
+
+.card {
+    background: white;
+    border: 1px solid #eaecf0;
+    border-radius: 17px;
+    padding: 20px;
+    box-shadow: 0 3px 12px rgba(16,24,40,.035);
+}
+
+.stat-label {
+    color: #667085;
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+.stat-value {
+    font-size: 26px;
+    font-weight: 700;
+}
+
+.stat-small {
+    color: #12b76a;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+/* КОНТЕНТ */
+
+.content {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 20px;
+}
+
+.section-title {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.section-title h3 {
+    font-size: 18px;
+}
+
+.lesson {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 14px;
+    border: 1px solid #eaecf0;
+    border-radius: 13px;
+    margin-bottom: 10px;
+}
+
+.time {
+    width: 58px;
+    color: #667085;
+    font-size: 13px;
+}
+
+.lesson-main {
+    flex: 1;
+}
+
+.lesson-main strong {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.lesson-main span {
+    color: #667085;
+    font-size: 12px;
+}
+
+.lesson-type {
+    background: #eef4ff;
+    color: #175cd3;
+    padding: 5px 9px;
+    border-radius: 7px;
+    font-size: 11px;
+}
+
+.news-item {
+    background: #f8f9fc;
+    padding: 14px;border-radius: 13px;
+    margin-bottom: 10px;
+}
+
+.news-item strong {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.news-item p {
+    color: #667085;
+    font-size: 12px;
+}
+
+/* ЗАГОЛОВКИ РАЗДЕЛОВ */
+
+.page-header {
+    margin-bottom: 25px;
+}
+
+.page-header h1 {
+    font-size: 28px;
+}
+
+.page-header p {
+    color: #667085;
+    margin-top: 6px;
+}
+
+/* ТАБЛИЦА */
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th,
+.table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #eaecf0;
+}
+
+.table th {
+    color: #667085;
+    font-size: 13px;
+}
+
+/* ПРОФИЛЬ */
+
+.profile-box {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.big-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg,#3b82f6,#6366f1);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+/* МОБИЛЬНОЕ МЕНЮ */
+
+.mobile-nav {
+    display: none;
+}
+
+@media(max-width:1000px) {
+    .grid {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .content {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width:700px) {
+
+    .sidebar {
+        display: none;
+    }
+
+    .main {
+        margin-left: 0;
+        padding: 22px 16px 90px;
+    }
+
+    .grid {
+        gap: 10px;
+    }
+
+    .card {
+        padding: 16px;
+    }
+
+    .topbar {
+        margin-bottom: 20px;
+    }
+
+    .greeting h1 {
+        font-size: 23px;
+    }
+
+    .date {
+        display: none;
+    }
+
+    .hero {
+        border-radius: 18px;
+        padding: 22px;
+    }
+
+    .mobile-nav {
+        display: flex;
+        position: fixed;
+        bottom: 12px;
+        left: 12px;
+        right: 12px;
+        height: 62px;
+        background: #101828;
+        border-radius: 18px;
+        z-index: 100;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .mobile-nav button {
+        background: none;
+        border: none;
+        color: #98a2b3;
+        font-size: 11px;
+    }
+
+    .mobile-nav button.active {
+        color: white;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+        <div class="logo-icon">И</div>
+        <span>ИнгГУ Student</span>
+    </div>
+
+    <nav class="menu">
+
+        <button class="nav-btn active" data-page="home">
+            🏠 Главная
+        </button>
+
+        <button class="nav-btn" data-page="schedule">
+            📅 Расписание
+        </button>
+
+        <button class="nav-btn" data-page="grades">
+            📊 Оценки
+        </button>
+
+        <button class="nav-btn" data-page="attendance">
+            ✅ Посещаемость
+        </button>
+
+        <button class="nav-btn" data-page="notifications">
+            🔔 Уведомления
+        </button>
+
+        <button class="nav-btn" data-page="profile">
+            👤 Профиль
+        </button>
+
+    </nav>
+
+    <div class="sidebar-bottom">
+
+        <div class="mini-profile">
+            <div class="avatar">А</div>
+
+            <div>
+                <strong style="font-size:13px;">Амин</strong>
+                <div style="font-size:11px;color:#98a2b3;">
+                    Студент
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</aside>
+
+
+<!-- ОСНОВНОЙ КОНТЕНТ -->
+
+<main class="main">
+
+
+<!-- ГЛАВНАЯ -->
+
+<section class="page active" id="home">
+
+    <div class="topbar">
+
+        <div class="greeting">
+            <h1>Доброе утро, Амин 👋</h1>
+            <p>Вот что происходит с твоей учёбой сегодня</p>
+        </div>
+
+        <div class="date" id="currentDate"></div>
+
+    </div>
+
+
+    <div class="hero">
+
+        <div>
+            <h2>Твой учебный день</h2>
+            <p>
+                Всё необходимое для учёбы в одном месте.
+            </p>
+        </div>
+
+        <div class="hero-stat">
+            <strong>3</strong>
+            <span>пары сегодня</span>
+        </div>
+
+    </div>
+
+
+    <div class="grid">
+
+        <div class="card">
+            <div class="stat-label">Средний балл</div>
+            <div class="stat-value">—</div><div class="stat-small">
+                Пока нет оценок
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="stat-label">Посещаемость</div>
+            <div class="stat-value">100%</div>
+            <div class="stat-small">
+                Отлично
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="stat-label">Предметов</div>
+            <div class="stat-value">—</div>
+            <div class="stat-small">
+                Текущий семестр
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="stat-label">Уведомления</div>
+            <div class="stat-value">0</div>
+            <div class="stat-small">
+                Всё спокойно
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="content">
+
+        <div class="card">
+
+            <div class="section-title">
+                <h3>Расписание на сегодня</h3>
+                <span>Сегодня</span>
+            </div>
+
+            <div class="lesson">
+
+                <div class="time">09:00</div>
+
+                <div class="lesson-main">
+                    <strong>Аналитическая геометрия</strong>
+                    <span>
+                        Аудитория уточняется
+                    </span>
+                </div>
+
+                <div class="lesson-type">
+                    Лекция
+                </div>
+
+            </div>
+
+
+            <div class="lesson">
+
+                <div class="time">10:40</div>
+
+                <div class="lesson-main">
+                    <strong>Высшая математика</strong>
+                    <span>
+                        Аудитория уточняется
+                    </span>
+                </div>
+
+                <div class="lesson-type">
+                    Практика
+                </div>
+
+            </div>
+
+
+            <div class="lesson">
+
+                <div class="time">12:20</div>
+
+                <div class="lesson-main">
+                    <strong>Физика</strong>
+                    <span>
+                        Аудитория уточняется
+                    </span>
+                </div>
+
+                <div class="lesson-type">
+                    Лекция
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="section-title">
+                <h3>Новости</h3>
+                <span>ИнгГУ</span>
+            </div>
+
+            <div class="news-item">
+                <strong>Добро пожаловать!</strong>
+                <p>
+                    Здесь будут важные новости университета.
+                </p>
+            </div>
+
+            <div class="news-item">
+                <strong>Расписание</strong>
+                <p>
+                    Актуальное расписание появится здесь.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- РАСПИСАНИЕ -->
+
+<section class="page" id="schedule">
+
+    <div class="page-header">
+        <h1>Расписание 📅</h1>
+        <p>Твои учебные занятия</p>
+    </div>
+
+    <div class="card">
+
+        <div class="lesson">
+            <div class="time">09:00</div>
+
+            <div class="lesson-main">
+                <strong>Аналитическая геометрия</strong>
+                <span>Аудитория уточняется</span>
+            </div>
+
+            <div class="lesson-type">Лекция</div>
+        </div>
+
+        <div class="lesson">
+            <div class="time">10:40</div>
+
+            <div class="lesson-main">
+                <strong>Высшая математика</strong>
+                <span>Аудитория уточняется</span>
+            </div>
+
+            <div class="lesson-type">Практика</div>
+        </div>
+
+        <div class="lesson">
+            <div class="time">12:20</div>
+
+            <div class="lesson-main">
+                <strong>Физика</strong>
+                <span>Аудитория уточняется</span>
+            </div>
+
+            <div class="lesson-type">Лекция</div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ОЦЕНКИ -->
+
+<section class="page" id="grades">
+
+    <div class="page-header">
+        <h1>Оценки 📊</h1><p>Твои результаты обучения</p>
+    </div>
+
+    <div class="card">
+
+        <table class="table">
+
+            <tr>
+                <th>Предмет</th>
+                <th>Оценка</th>
+            </tr>
+
+            <tr>
+                <td>Аналитическая геометрия</td>
+                <td>—</td>
+            </tr>
+
+            <tr>
+                <td>Высшая математика</td>
+                <td>—</td>
+            </tr>
+
+            <tr>
+                <td>Физика</td>
+                <td>—</td>
+            </tr>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+<!-- ПОСЕЩАЕМОСТЬ -->
+
+<section class="page" id="attendance">
+
+    <div class="page-header">
+        <h1>Посещаемость ✅</h1>
+        <p>Статистика посещения занятий</p>
+    </div>
+
+    <div class="grid">
+
+        <div class="card">
+            <div class="stat-label">Общая посещаемость</div>
+            <div class="stat-value">100%</div>
+            <div class="stat-small">Отличный результат</div>
+        </div>
+
+        <div class="card">
+            <div class="stat-label">Пропущено</div>
+            <div class="stat-value">0</div>
+        </div>
+
+        <div class="card">
+            <div class="stat-label">Посещено</div>
+            <div class="stat-value">—</div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- УВЕДОМЛЕНИЯ -->
+
+<section class="page" id="notifications">
+
+    <div class="page-header">
+        <h1>Уведомления 🔔</h1>
+        <p>Важная информация для тебя</p>
+    </div>
+
+    <div class="card">
+
+        <div class="news-item">
+            <strong>Пока нет новых уведомлений</strong>
+            <p>
+                Когда появится важная информация,
+                она будет отображаться здесь.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ПРОФИЛЬ -->
+
+<section class="page" id="profile">
+
+    <div class="page-header">
+        <h1>Профиль 👤</h1>
+        <p>Информация о студенте</p>
+    </div>
+
+    <div class="card">
+
+        <div class="profile-box">
+
+            <div class="big-avatar">
+                А
+            </div>
+
+            <div>
+                <h2>Амин</h2>
+
+                <p style="color:#667085;margin-top:5px;">
+                    Студент ИнгГУ
+                </p>
+
+                <p style="color:#667085;margin-top:4px;">
+                    Физико-математический факультет
+                </p>
+
+                <p style="color:#667085;margin-top:4px;">
+                    Микроэлектроника
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+</div>
+
+
+<!-- МОБИЛЬНАЯ НАВИГАЦИЯ -->
+
+<div class="mobile-nav">
+
+    <button class="nav-btn active" data-page="home">
+        🏠<br>Главная
+    </button>
+
+    <button class="nav-btn" data-page="schedule">
+        📅<br>Расписание
+    </button>
+
+    <button class="nav-btn" data-page="grades">
+        📊<br>Оценки
+    </button>
+
+    <button class="nav-btn" data-page="profile">
+        👤<br>Профиль
+    </button>
+
+</div>
+
+
+<script>
+
+/* ДАТА */
+
+const date = new Date();
+
+const months = [
+    "января",
+    "февраля",
+    "марта",
+    "апреля",
+    "мая",
+    "июня",
+    "июля",
+    "августа",
+    "сентября",
+    "октября",
+    "ноября",
+    "декабря"
+];
+
+document.getElementById("currentDate").textContent =
+    date.getDate() +
+    " " +
+    months[date.getMonth()] +
+    " " +
+    date.getFullYear();
+
+
+/* НАВИГАЦИЯ */
+
+const buttons = document.querySelectorAll(".nav-btn");
+const pages = document.querySelectorAll(".page");
+
+buttons.forEach(button => {
+
+    button.addEventListener("click", () => {
+
+        const pageName = button.dataset.page;
+
+        /* скрываем страницы */
+
+        pages.forEach(page => {
+            page.classList.remove("active");
+        });
+
+        /* показываем нужную */
+
+        const selectedPage =
+            document.getElementById(pageName);
+
+        if (selectedPage) {
+            selectedPage.classList.add("active");
+        }
+
+        /* меняем активную кнопку */
+
+        buttons.forEach(btn => {
+            btn.classList.remove("active");
+        });
+
+        buttons.forEach(btn => {
+
+            if (btn.dataset.page === pageName) {
+                btn.classList.add("active");
+            }
+
+        });
+
+        /* прокрутка вверх */
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    });
+
+});
+
+</script>
